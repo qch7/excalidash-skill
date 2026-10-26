@@ -9,6 +9,7 @@
 ## 功能
 
 - 读取自己的画板和与我共享的画板。
+- 安装后主动引导配置，后续复用本地连接信息。
 - 创建画板，按最新版本修改内容，保存后回读验证。
 - 使用原生 Excalidraw 元素保留可编辑性。
 - 按视图、分组、网格和端口规划布局，减少连线交叉。
@@ -24,18 +25,19 @@
 请从 https://github.com/qch7/excalidash-skill 安装 excalidash 技能。
 先阅读仓库的 README.md 和 SKILL.md，确认当前 Agent 的技能目录，再安装并检查 Python 3.10+。
 已有同名安装时先检查，保留本地改动。
-安装后运行 config-status。已有有效配置时直接使用；缺失时引导我填写 ExcaliDash 网址、邮箱和密码。
+安装后立即读取已安装的 SKILL.md 并运行 config-status，主动引导我完成配置。
+已有有效配置时直接复用；缺失时引导我填写 ExcaliDash 网址、邮箱和密码。
 配置保存到 ~/.config/ExcaliDashSkill/config.json，密码通过本机终端隐藏输入填写。
-最后检查技能是否可加载，并说明调用方法。
+运行 whoami 验证登录，最后说明安装状态、配置状态、登录结果和调用方法。
 ```
 
 在 Codex 中，也可以调用内置安装技能：
 
 ```text
-$skill-installer 请安装 https://github.com/qch7/excalidash-skill 仓库根目录中的 excalidash 技能。
+$skill-installer 请安装 https://github.com/qch7/excalidash-skill 仓库根目录中的 excalidash 技能。安装后立即读取 SKILL.md，主动引导我完成配置并验证登录。
 ```
 
-安装后可在新会话中调用。技能未显示时重启 Codex。其他 Agent 按各自的技能加载方式使用本目录。
+Agent 完成文件安装后应立即启动配置引导。配置有效时复用并验证登录；配置缺失时主动说明所需信息和填写方式。首次设置完成后即可调用技能。技能未显示时重启 Codex。其他 Agent 按各自的技能加载方式使用本目录。
 
 ## 手动安装到 Codex
 
@@ -81,6 +83,8 @@ $excalidash 修改这个画板：<画板链接>。
 ```
 
 ## 首次配置
+
+Agent 在安装完成后主动引导本节操作。手动安装的用户可运行下列命令完成配置和登录验证。
 
 以下 CLI 示例均在本仓库根目录运行。
 

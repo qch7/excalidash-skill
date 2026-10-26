@@ -1,4 +1,4 @@
 interface:
   display_name: "ExcaliDash"
-  short_description: "Operate ExcaliDash boards through its HTTP API"
-  default_prompt: "Use $excalidash to read, create, or edit an ExcaliDash drawing through its HTTP API."
+  short_description: "通过 HTTP API 操作 ExcaliDash 画板，安装后主动引导配置"
+  default_prompt: "使用 $excalidash 操作 ExcaliDash 画板，先检查本地配置，缺失时主动引导配置并验证登录。"

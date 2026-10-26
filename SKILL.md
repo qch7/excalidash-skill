@@ -1,13 +1,15 @@
 ---
 name: excalidash
-description: 通过 HTTP API 读取、创建和修改 ExcaliDash 的 Excalidraw 画板，编排易懂的架构图、流程图和可编辑图形，支持与我共享列表。用户提到 ExcaliDash、其画板链接或共享画板操作时使用；默认无需浏览器或 Computer Use。
+description: 通过 HTTP API 读取、创建和修改 ExcaliDash 画板，支持共享画板与可编辑架构图。用于 ExcaliDash 安装配置、画板链接和绘图任务；安装后主动检查配置并引导填写网站、账号和密码，后续优先复用本地配置。无需浏览器自动化。
 ---
 
 # ExcaliDash
 
 使用本技能的 `scripts/excalidash.py` 调用网站自身的 HTTP API。需要 Python 3.10+，无第三方依赖。将下文脚本路径解析为本技能目录中的绝对路径，不依赖当前项目。
 
-## 先读取配置，缺失再引导
+## 安装后主动引导配置
+
+处理安装任务时，完成文件安装后立即执行下方检查，主动引导用户完成首次配置。安装任务包括配置引导和登录验证；配置尚未完成时说明待填写项，并给出下一步操作。完成反馈说明安装状态、配置状态和登录验证结果。
 
 仅生成本地场景、预览或进行明确不联网的验收时，跳过本节配置和认证，不读取凭据；需要连接真实网站时按本节操作。
 
@@ -19,10 +21,10 @@ description: 通过 HTTP API 读取、创建和修改 ExcaliDash 的 Excalidraw 
 python "<技能绝对路径>/scripts/excalidash.py" config-status
 ```
 
-- 若 `configured: true`，直接使用已有配置登录，除非用户要求切换账号，否则不重复询问、不覆盖配置。
+- 若 `configured: true`，直接复用已有配置。安装后的设置流程运行 `whoami` 验证登录；后续画板命令自行登录。用户要求切换账号时再更新配置。
 - 若返回 `CONFIG_MISSING` 或 `CONFIG_INVALID`，一次性询问缺失的网站完整网址、登录邮箱和密码。当前会话中已明确提供的值可直接沿用，只询问缺失项；不要猜测凭据。
 - 引导用户在本机终端运行 `configure`，密码通过隐藏输入填写；或将用户明确提供的配置 JSON 通过 stdin 传给 `configure --stdin-json`。避免把密码放进命令行参数、临时脚本或普通任务文件，不回显配置全文。
-- 本地检查不联网。配置保存后运行 `whoami` 验证登录。认证失败时报告实际错误，不自动换账号或恢复旧密码。
+- 本地检查不联网。配置保存后运行 `whoami` 验证登录。认证失败时报告实际错误，并引导用户检查网址或凭据；不自动换账号或恢复旧密码。
 
 ```powershell
 python "<技能绝对路径>/scripts/excalidash.py" configure
