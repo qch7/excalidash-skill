@@ -2,6 +2,10 @@
 
 通过 HTTP API 让 AI 读取、创建和修改 ExcaliDash 画板，生成可编辑的架构图与流程图。
 
+## 项目来源
+
+画板服务来自 [ZimengXiong/ExcaliDash](https://github.com/ZimengXiong/ExcaliDash)。请按源项目说明部署 ExcaliDash，并准备可登录的账号。本仓库提供配套的 Agent 技能和 HTTP 客户端。
+
 ## 功能
 
 - 读取自己的画板和与我共享的画板。
@@ -12,25 +16,69 @@
 
 脚本使用 Python 3.10+ 标准库，无第三方依赖。网站操作通过 HTTP 完成。
 
-## 安装到 Codex
+## 通过 Agent 安装
 
-将本仓库克隆到个人 skills 目录，目录名使用 `excalidash`。自定义了 `CODEX_HOME` 时，使用对应的 `skills/excalidash` 目录。
+将以下指令发给支持本地技能、终端和网络访问的 Agent：
+
+```text
+请从 https://github.com/qch7/excalidash-skill 安装 excalidash 技能。
+先阅读仓库的 README.md 和 SKILL.md，确认当前 Agent 的技能目录，再安装并检查 Python 3.10+。
+已有同名安装时先检查，保留本地改动。
+安装后运行 config-status。已有有效配置时直接使用；缺失时引导我填写 ExcaliDash 网址、邮箱和密码。
+配置保存到 ~/.config/ExcaliDashSkill/config.json，密码通过本机终端隐藏输入填写。
+最后检查技能是否可加载，并说明调用方法。
+```
+
+在 Codex 中，也可以调用内置安装技能：
+
+```text
+$skill-installer 请安装 https://github.com/qch7/excalidash-skill 仓库根目录中的 excalidash 技能。
+```
+
+安装后可在新会话中调用。技能未显示时重启 Codex。其他 Agent 按各自的技能加载方式使用本目录。
+
+## 手动安装到 Codex
+
+下面使用 [OpenAI 官方文档](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) 列出的用户级目录 `~/.agents/skills/excalidash`。已有安装时沿用当前环境识别的技能目录，避免同名重复安装。
 
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/qch7/excalidash-skill.git "$env:USERPROFILE/.codex/skills/excalidash"
-Set-Location "$env:USERPROFILE/.codex/skills/excalidash"
+git clone https://github.com/qch7/excalidash-skill.git "$env:USERPROFILE/.agents/skills/excalidash"
+Set-Location "$env:USERPROFILE/.agents/skills/excalidash"
 ```
 
 Linux / macOS：
 
 ```sh
-git clone https://github.com/qch7/excalidash-skill.git "$HOME/.codex/skills/excalidash"
-cd "$HOME/.codex/skills/excalidash"
+git clone https://github.com/qch7/excalidash-skill.git "$HOME/.agents/skills/excalidash"
+cd "$HOME/.agents/skills/excalidash"
 ```
 
-在 Codex 中使用 `$excalidash`，或描述 ExcaliDash 画板任务。首次连接网站时，AI 会先检查配置，缺失时引导填写。其他支持 `SKILL.md` 的工具可按各自的技能安装方式加载本目录。
+## 通过 Agent 使用
+
+在 Codex 中用 `$excalidash` 指定技能，也可以直接描述 ExcaliDash 任务。首次连接网站时，Agent 先检查本地配置，缺失时引导填写。
+
+创建画板：
+
+```text
+$excalidash 创建一个测试画板，画出 Web → API 网关 → 应用服务 → 数据库的请求流程。
+使用原生可编辑元素，对齐节点并标注连线动作。保存后给我画板链接。
+```
+
+读取共享画板：
+
+```text
+$excalidash 列出与我共享的画板，读取我选择的画板并概述内容。
+```
+
+修改已有画板，将占位符替换为实际链接：
+
+```text
+$excalidash 修改这个画板：<画板链接>。
+将并列节点对齐，减少连线交叉，保留原有组件和调用关系。
+查看修改后的预览，保存并验证结果。
+```
 
 ## 首次配置
 
