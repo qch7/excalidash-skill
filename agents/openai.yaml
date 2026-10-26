@@ -1,0 +1,4 @@
+interface:
+  display_name: "ExcaliDash"
+  short_description: "Operate ExcaliDash boards through its HTTP API"
+  default_prompt: "Use $excalidash to read, create, or edit an ExcaliDash drawing through its HTTP API."

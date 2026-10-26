@@ -1,0 +1,36 @@
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local credentials and session captures
+.env
+.env.*
+!.env.example
+config.json
+config.*.json
+!config.example.json
+.config/
+cookies*
+*.har
+*.log
+*.pem
+*.key
+
+# Local drawing data and exports
+local/
+exports/
+*.excalidraw
+drawing.json
+edited-drawing.json
+scene.json
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
